@@ -110,7 +110,17 @@ public class Controller implements Initializable {
     @FXML
     private TextArea textArea;
 
-
+    /**
+     * initialize
+     *
+     * @param url
+     * The location used to resolve relative paths for the root object, or
+     * {@code null} if the location is not known.
+     *
+     * @param resourceBundle
+     * The resources used to localize the root object, or {@code null} if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         termBox.setItems(FXCollections.observableArrayList("3","6","9","12"));
@@ -148,6 +158,9 @@ public class Controller implements Initializable {
 
     }
 
+    /**
+     * Functionality for the clear all button
+     */
     @FXML
     private void clearAll(){
         fname.clear();
