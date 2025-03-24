@@ -206,7 +206,9 @@ public class Controller implements Initializable {
 
     @FXML
     private void handleWithdraw() {
-        String result = withdrawLogic(); // helper method
+        String accountNumberStr = acctnum.getText();
+        String amountstr = dorwAmount.getText();
+        String result = withdrawLogic(accountNumberStr, amountstr); // helper method
         textArea.appendText(result + "\n");
     }
 
@@ -412,12 +414,38 @@ public class Controller implements Initializable {
         return String.format("$%.2f deposited to %s. New balance: $%.2f", depositAmount, acctnumber, acct.getBalance());
     }
 
-    private String withdrawLogic() {
-        // Same pattern
-        return null;
+    private String withdrawLogic(String acctnumber, String wAmount) {
+        int index = database.findAccount(acctnumber);
+        if (index == -1) return acctnumber + " does not exist.";
+
+        Account acct = database.get(index);
+        AccountNumber acctNum = acct.getNumber();
+        double withdrawAmount;
+        try {
+            withdrawAmount = Double.parseDouble(wAmount);
+        } catch (NumberFormatException e) {
+            return "Invalid deposit type: " + wAmount;
+        }
+
+        if (withdrawAmount <= 0) return withdrawAmount + " - deposit amount cannot be 0 or negative.";
+        String old = "Old: " + acct.getBalance() + " ";
+        boolean success = database.withdraw(acctNum, withdrawAmount);
+        if (!success && acctNum.getAccountType() == AccountType.MoneyMarketSavings && acct.getBalance() < 2000) {
+            return acctnumber + " balance below $2,000 - withdrawing " + withdrawAmount + " - insufficient funds.";
+        } else if (!success) {
+            return acctnumber + " withdrawing " + withdrawAmount + " - insufficient funds.";
+        } else if (acctNum.getAccountType() == AccountType.MoneyMarketSavings && acct.getBalance() < 2000) {
+            return acctnumber + " balance below $2,000 - " + withdrawAmount + " withdrawn from " + acctnumber;
+        } else {
+            Date date = new Date();
+            Branch branch = acctNum.getBranch();
+            Activity act = new Activity(date, branch, 'W', withdrawAmount, false);
+            acct.addActivity(act);
+            return old + String.format("$%.2f withdrawn from %s. New balance: $%.2f", withdrawAmount, acctnumber, acct.getBalance());
+        }
     }
 
-    private String closeAccountLogic() {
+    private String closeAccountLogic(){
         // Close by account or profile logic
         return null;
     }
