@@ -244,26 +244,9 @@ public class Controller implements Initializable {
         Branch branch = Branch.valueOf(branchStr.substring(0, 1).toUpperCase() + branchStr.substring(1).toLowerCase());
         Account account = null;
 
-            if (!dobDate.isValid()) {
-                return "DOB invalid: " + dobDate;
-            }
-
-            Date today = new Date();
-            int todayYear = today.getYear();
-            int todayMonth = today.getMonth();
-            int todayDay = today.getDay();
-
-            int birthYear = dobDate.getYear();
-            int birthMonth = dobDate.getMonth();
-            int birthDay = dobDate.getDay();
-
-            int age = todayYear - birthYear;
-            if (todayMonth < birthMonth || (todayMonth == birthMonth && todayDay < birthDay)) {
-                age--;
-            }
-            if (age < 18) {
-                return "Applicant must be at least 18 years old.";
-            }
+            if (!dobDate.isValid()) { return "DOB invalid: " + dobDate; }
+            int age = getAge(dobDate);
+            if (age < 18) { return "Applicant must be at least 18 years old."; }
 
             AccountType type;
             switch (accountTypeStr.trim().toLowerCase()) {
@@ -368,6 +351,23 @@ public class Controller implements Initializable {
             database.add(account);
             return type + " account " + account.getNumber() + " has been opened." + dobDate;
 
+    }
+
+    private int getAge(Date birth){
+        Date today = new Date();
+        int todayYear = today.getYear();
+        int todayMonth = today.getMonth();
+        int todayDay = today.getDay();
+
+        int birthYear = birth.getYear();
+        int birthMonth = birth.getMonth();
+        int birthDay = birth.getDay();
+
+        int age = todayYear - birthYear;
+        if (todayMonth < birthMonth || (todayMonth == birthMonth && todayDay < birthDay)) {
+            age--;
+        }
+        return age;
     }
 
     private boolean exists(Profile holder, AccountType type){
