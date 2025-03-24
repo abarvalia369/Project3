@@ -23,7 +23,7 @@ public class Controller implements Initializable {
     @FXML
     private TextField lname;
     @FXML
-    private DatePicker dobInput;
+    private DatePicker dob;
 
     //AccountTypes
     @FXML
@@ -74,6 +74,22 @@ public class Controller implements Initializable {
     @FXML
     private ToggleGroup campuses;
 
+    //tab 2 (close/deposit/withdraw)
+    @FXML
+    private TextField acctnum;
+    @FXML
+    private TextField dorwAmount;
+    @FXML
+    private Button deposit;
+    @FXML
+    private Button withdraw;
+    @FXML
+    private DatePicker closingDate;
+    @FXML
+    private Button close;
+    @FXML
+    private Button closeAll;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -116,7 +132,7 @@ public class Controller implements Initializable {
     private void clearAll(){
         fname.clear();
         lname.clear();
-        dobInput.setValue(null);
+        dob.setValue(null);
         collegeChecking.setSelected(false);
         checking.setSelected(false);
         savings.setSelected(false);
