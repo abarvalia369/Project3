@@ -449,6 +449,46 @@ public class Controller implements Initializable {
         // Close by account or profile logic
         return null;
     }
+    double roundUpToTwoDecimal(double amount) {
+        return Math.ceil(amount * 100.0) / 100.0;
+    }
+
+    /*
+    private double getAnnualRate(Account acct){
+        AccountType type = acct.getNumber().getAccountType();
+
+        if (type == AccountType.RegularSavings && acct instanceof Savings savings) {
+            return savings.loyalty() ? 0.0275 : 0.025;
+        }
+        else if (type == AccountType.MoneyMarketSavings && acct instanceof MoneyMarket moneyMarket) {
+            return moneyMarket.loyalty() ? 0.0375 : 0.035;
+        }
+        else if (type == AccountType.Checking || type == AccountType.CollegeChecking) {
+            return 0.015;
+        }
+
+        return 0.0; // unknown type
+    }
+     */
+
+    public int daysBetween(Date d1, Date d2) {
+        int[] daysInMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+        int total1 = d1.getYear() * 365 + d1.getDay();
+        for (int i = 0; i < d1.getMonth() - 1; i++) {
+            total1 += daysInMonth[i];
+        }
+
+        int total2 = d2.getYear() * 365 + d2.getDay();
+        for (int i = 0; i < d2.getMonth() - 1; i++) {
+            total2 += daysInMonth[i];
+        }
+
+        return Math.abs(total2 - total1);
+    }
+
+
+
 
     /**
      * Function allows user to select one .txt file
