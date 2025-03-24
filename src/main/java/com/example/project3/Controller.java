@@ -106,6 +106,9 @@ public class Controller implements Initializable {
     @FXML
     private Button printAccountStatements;
 
+    //textArea
+    @FXML
+    private TextArea textArea;
 
 
     @Override
