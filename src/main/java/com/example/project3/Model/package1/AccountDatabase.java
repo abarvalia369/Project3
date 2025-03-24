@@ -94,7 +94,12 @@ public class AccountDatabase extends List<Account> {
         }
         return branch;
     }
-
+    /**
+     * A method that returns if two accounts have the same account number
+     *
+     * @param string the object to be compared.
+     * @return Campus
+     */
     private Campus toCampus(String string) {
         Campus campus = null;
         switch (string) {
@@ -157,17 +162,13 @@ public class AccountDatabase extends List<Account> {
 
 
     /**
-     * A method for printing the current archived accounts
+     * A method for getting the current archived accounts
      */
-    public void printArchive() {
-        this.archive.print();
-    }
-
     public Archive getArchive() {
         return archive;
     }
 
-    public String printByBranch() {
+    public String returnByBranch() {
         Sort.AccountSort(this, 'B');
         StringBuilder sb = new StringBuilder();
         sb.append("*List of accounts ordered by branch location (county, city).\n");
@@ -178,7 +179,7 @@ public class AccountDatabase extends List<Account> {
         return sb.toString();
     }
 
-    public String printByHolder() {
+    public String returnByHolder() {
         Sort.AccountSort(this, 'H');
         StringBuilder sb = new StringBuilder();
         sb.append("*List of accounts ordered by account holder and number.\n");
@@ -189,7 +190,7 @@ public class AccountDatabase extends List<Account> {
         return sb.toString();
     }
 
-    public String printByType() {
+    public String returnByType() {
         Sort.AccountSort(this, 'T');
         StringBuilder sb = new StringBuilder();
         sb.append("*List of accounts ordered by account type and number.\n");

@@ -234,31 +234,31 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    private void handlePrintAccountsByHolder() {
+    private void handleReturnAccountsByHolder() {
         String result = returnByHolderLogic();
         textArea.appendText(result + "\n");
     }
 
     @FXML
-    private void handlePrintAccountsByType() {
+    private void handleReturnAccountsByType() {
         String result = returnByTypeLogic();
         textArea.appendText(result + "\n");
     }
 
     @FXML
-    private void handlePrintAccountsByBranch() {
+    private void handleReturnAccountsByBranch() {
         String result = returnByBranchLogic();
         textArea.appendText(result + "\n");
     }
 
     @FXML
-    private void handlePrintArchive() {
+    private void handleReturnArchive() {
         String result =  returnArchiveLogic();
         textArea.appendText(result + "\n");
     }
 
     @FXML
-    private void handlePrintStatements() {
+    private void handleReturnStatements() {
         String result = returnStatementLogic();
         textArea.appendText(result + "\n");
     }
@@ -308,15 +308,15 @@ public class Controller implements Initializable {
 
 
     private String returnByHolderLogic(){
-        return database.printByHolder();
+        return database.returnByHolder();
     }
 
     private String returnByTypeLogic(){
-        return database.printByType();
+        return database.returnByType();
     }
 
     private String returnByBranchLogic(){
-        return database.printByBranch();
+        return database.returnByBranch();
     }
 
 
@@ -704,8 +704,6 @@ public class Controller implements Initializable {
         return sb.toString();
     }
 
-
-
     double roundUpToTwoDecimal(double amount) {
         return Math.ceil(amount * 100.0) / 100.0;
     }
@@ -743,8 +741,6 @@ public class Controller implements Initializable {
 
         return Math.abs(total2 - total1);
     }
-
-
 
 
     /**
