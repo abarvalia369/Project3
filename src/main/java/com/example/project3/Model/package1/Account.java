@@ -1,6 +1,5 @@
 package com.example.project3.Model.package1;
 
-import com.example.project3.Model.util.Date;
 import com.example.project3.Model.util.List;
 /**
  Account class for RU Bank project.
@@ -84,28 +83,7 @@ public abstract class Account implements Comparable<Account> {
 
     public abstract double interest(); //monthly interest
     public abstract double fee(); //account fee
-
-    /**
-     * A method to withdraw(subtract) money from the current account balance
-     *
-     * @param amount the amount to be withdrawn
-     *
-    public void withdraw(double amount) {
-    if( amount > balance ){
-    System.out.println("Insufficient Funds.");
-    }
-    this.balance -= amount;
-    }
-
-    /**
-     * A method to deposit(add) money to the current account balance
-     *
-     * @param amount the amount to be deposited
-     */
-    public void deposit(double amount) {
-        this.balance += amount;
-    }
-
+    
 
     public AccountNumber getNumber() {
         return this.number;
