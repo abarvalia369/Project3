@@ -5,7 +5,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 
+import javafx.event.ActionEvent;
+import java.io.File;
 import java.util.ResourceBundle;
 import java.net.URL;
 
@@ -17,6 +20,9 @@ public class Controller implements Initializable {
     protected void open() {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
+
+    @FXML
+    private Button test;
 
     @FXML
     private TextField fname;
@@ -105,6 +111,8 @@ public class Controller implements Initializable {
     private Button printByBranch;
     @FXML
     private Button printAccountStatements;
+    @FXML
+    private Label print;
 
     //textArea
     @FXML
@@ -175,6 +183,21 @@ public class Controller implements Initializable {
         cdDate.setValue(null);
         branchBox.getSelectionModel().clearSelection();
         initialDeposit.clear();
+    }
+
+    /**
+     * Function allows user to select one .txt file
+     * @param event
+     */
+    @FXML
+    void fileChooser(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+        File file = fileChooser.showOpenDialog(null);
+        if( file != null ){
+            System.out.println(file.getAbsolutePath());
+        }
+
     }
 
 }

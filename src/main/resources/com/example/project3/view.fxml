@@ -21,7 +21,7 @@
 
 <BorderPane prefHeight="647.0" prefWidth="992.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project3.Controller">
    <bottom>
-      <TextArea fx:id="amount" prefHeight="130.0" prefWidth="992.0" BorderPane.alignment="CENTER" />
+      <TextArea fx:id="textArea" prefHeight="130.0" prefWidth="992.0" BorderPane.alignment="CENTER" />
    </bottom>
    <top>
       <HBox prefHeight="14.0" prefWidth="992.0" BorderPane.alignment="CENTER" />
@@ -294,9 +294,19 @@
                               <Button fx:id="loadActivitiesFromFile" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="LOAD ACTIVITIES FROM FILE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                               <Button fx:id="PrintByBranch" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="PRINT BY BRANCH" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                               <Button fx:id="printAccountStatements" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="PRINT ACCOUNT STATEMENTS" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                              <Label fx:id="print" prefHeight="17.0" prefWidth="238.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                      </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="testTab">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="test" layoutX="137.0" layoutY="64.0" mnemonicParsing="false" onAction="#fileChooser" text="test" />
+                     </children>
+                  </AnchorPane>
               </content>
             </Tab>
         </tabs>
