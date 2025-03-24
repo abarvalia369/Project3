@@ -3,7 +3,7 @@ package com.example.project3.Model.package1;
 /**
  * CollegeChecking class extending Checking.
  */
-class CollegeChecking extends Checking {
+public class CollegeChecking extends Checking {
     private Campus campus;
     public CollegeChecking(AccountNumber number, Profile holder, double balance, Campus campus) {
         super(number, holder, balance);

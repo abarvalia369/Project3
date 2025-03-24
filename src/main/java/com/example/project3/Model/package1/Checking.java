@@ -3,7 +3,7 @@ package com.example.project3.Model.package1;
 /**
  * Checking class extending Account.
  */
-class Checking extends Account {
+public class Checking extends Account {
     public Checking(AccountNumber number, Profile holder, double balance) {
         super(number, holder, balance);
     }

@@ -6,7 +6,7 @@ import com.example.project3.Model.util.List;
 /**
  * CertificateDeposit class extending Savings.
  */
-class CertificateDeposit extends Account {
+public class CertificateDeposit extends Account {
     private int term;
     private Date open;
 
