@@ -377,9 +377,10 @@ public class AccountDatabase extends List<Account> {
     /**
      * A method for printing the current archived accounts
      */
-    public void processActivities(File file) throws IOException {
+    public String processActivities(File file) throws IOException {
         Scanner scanner = new Scanner(file);
         List<Activity> process = new List<Activity>();
+        StringBuilder sb = new StringBuilder();
         while (scanner.hasNextLine()) {
             String account = scanner.nextLine().trim();
             if (account.isEmpty())
@@ -405,10 +406,13 @@ public class AccountDatabase extends List<Account> {
                 WoD = "D";
                 deposit(accountNumber, amount);
             }
-            System.out.println(String.format(accountNumber + "::" + date.toString() + "::" + location.getBranchName().toUpperCase() + "[ATM]::" + WoD + "::$%,.2f", amount));
-
+            sb.append(accountNumber).append("::");
+            sb.append(date).append("::");
+            sb.append(location.getBranchName().toUpperCase()).append("[ATM]::");
+            sb.append(WoD).append("::");
+            sb.append(String.format("$%,.2f", amount)).append("\n");
         }
-
+        return sb.toString();
 
 
     }

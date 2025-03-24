@@ -6,6 +6,7 @@ import com.example.project3.Model.util.Date;
 import com.example.project3.Model.util.List;
 
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 import javafx.collections.FXCollections;
@@ -260,6 +261,49 @@ public class Controller implements Initializable {
     private void handlePrintStatements() {
         String result = returnStatementLogic();
         textArea.appendText(result + "\n");
+    }
+
+    @FXML
+    private void handleLoadAccounts(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select accounts.txt");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+        File file = fileChooser.showOpenDialog(null);
+
+        if (file == null) {
+            textArea.appendText("No file selected.\n");
+            return;
+        }
+
+        try {
+            database.loadAccounts(file);
+            textArea.appendText("Accounts from '" + file.getName() + "' loaded to the database.\n");
+        } catch (IOException e) {
+            textArea.appendText("Error loading accounts from file: " + file.getName() + "\n");
+        }
+
+    }
+
+    @FXML
+    private void handleLoadActivities(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select activities.txt");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+        File file = fileChooser.showOpenDialog(null);
+
+        if (file == null) {
+            textArea.appendText("No file selected.\n");
+            return;
+        }
+
+        try {
+            textArea.appendText("Processing '" + file.getName() + "'...\n");
+            textArea.appendText(database.processActivities(file));
+            textArea.appendText("Activities from '" + file.getName() + "' processed.\n");
+        } catch (IOException e) {
+            textArea.appendText("Error loading activities from file: " + file.getName() + "\n");
+        }
+
     }
 
 
@@ -698,7 +742,7 @@ public class Controller implements Initializable {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
         File file = fileChooser.showOpenDialog(null);
         if( file != null ){
-            System.out.println(file.getAbsolutePath());
+            textArea.appendText(file.getAbsolutePath());
         }
 
     }
