@@ -321,7 +321,7 @@ public class Controller implements Initializable {
 
 
     private String returnArchiveLogic(){
-        return database.getArchive().toString();
+        return database.getArchive().print();
     }
 
     private String returnStatementLogic(){
@@ -487,7 +487,6 @@ public class Controller implements Initializable {
                 Account existing = this.database.get(i);
 
                 if (existing.getHolder().equals(holder) && existing.getNumber().getAccountType() == type) {
-                    //System.out.println(" Duplicate found: " + holder + " already has a " + type + " account.");
                     return true;
                 }
             }

@@ -60,7 +60,6 @@ public class AccountDatabase extends List<Account> {
             case "cd":
                 return AccountType.CD;
             default:
-                System.out.println("Unknown type: " + formattedString);
                 return null;
         }
     }
@@ -343,7 +342,6 @@ public class AccountDatabase extends List<Account> {
                 }
                 break;
             default:
-                System.out.println("Unknown account type: " + accountType);
                 break;
         }
         return acct;
@@ -365,7 +363,7 @@ public class AccountDatabase extends List<Account> {
         for (int i = 0; i < size(); i++) {
             Account account = this.get(i);
             if (account != null && account.getHolder().equals(holder)) {
-                if (account.getNumber().getAccountType() == AccountType.Checking) {
+                if (account.getNumber().getAccountType().equals(AccountType.Checking)) {
                     return true; // Immediately return true once a checking account is found
                 }
             }

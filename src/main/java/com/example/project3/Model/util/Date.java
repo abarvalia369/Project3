@@ -248,44 +248,4 @@ public class Date implements Comparable<Date> {
     }
 
 
-
-
-    public static void main(String[] args) {
-        Date date0 = new Date(2023, 3, 0);
-        System.out.println("Test 0 (0th of the Month): " + date0.isValid()); // Expected: false (1st Invalid)
-
-        // The following tests validate our constructor
-        Date date1 = new Date();
-        System.out.println("Test 1 (Default Constructor): " + date1.toString()); // Expected: Current Date
-
-        Date date2 = new Date(2004, 5, 4);
-        System.out.println("Test 2 (Valid Date): " + date2.toString()); // Expected: 05/04/2004
-
-        Date date3 = new Date(2023, 13, 4);
-        System.out.println("Test 3 (Invalid Month): " + date3.toString()); // Expected: Invalid Date
-
-        //The following tests validate our isValid() method for regular and leap years
-        Date date4 = new Date(2003, 5, 22);
-        System.out.println("Test 4 (Valid Date): " + date4.isValid()); // Expected: true (1st Valid)
-
-        Date date5 = new Date(2023, 9, 31);
-        System.out.println("Test 5 (Invalid Day): " + date5.isValid()); // Expected: false (2nd Invalid)
-
-        Date date6 = new Date(2024, 2, 29);
-        System.out.println("Test 6 (Valid Leap Year): " + date6.isValid()); // Expected: true (2nd Valid)
-
-        Date date7 = new Date(2021, 2, 29);
-        System.out.println("Test 7 (Invalid Leap Year): " + date7.isValid()); // Expected: false (3rd Invalid)
-
-        Date year = new Date(3005, 2, 29);
-        System.out.println("Year Invalid (Future Year): " + year.isValid()); // Expected: false (4th Invalid)
-        //The following tests validate our compareTo() and equals() methods
-        Date date8 = new Date(2004, 5, 4);
-        Date date9 = new Date(2003, 5, 22);
-        System.out.println("Test 8 (Same Date): " + date2.compareTo(date8)); // Expected: 0
-        System.out.println("Test 9 (Earlier Date): " + date9.compareTo(date8)); // Expected: -1
-        System.out.println("Test 10 (Later Date): " + date8.compareTo(date9)); // Expected: 1
-        System.out.println("Test 11 (Equal): " + date2.equals(date8)); // Expected: true
-        System.out.println("Test 12 (Not Equal): " + date8.equals(date9)); // Expected: false
-    }
 }

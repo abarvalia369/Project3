@@ -51,16 +51,20 @@ public class Archive {
      * Method to print the linked list in order of most recently to least recently closed.
      *
      */
-    public void print() {               //print the linked list
-        System.out.println( "*List of closed accounts in the archive." );
+    public String print() {               //print the linked list
+        StringBuilder sb = new StringBuilder();
+        sb.append("*List of closed accounts in the archive.\n");
+
         AccountNode node = first;
-        while( node != null ){
-            if(node.account != null) {
-                System.out.println(node.account.toString());
+        while (node != null) {
+            if (node.account != null) {
+                sb.append(node.account.toString()).append("\n");
             }
             node = node.next;
         }
-        System.out.println( "*end of list." );
+
+        sb.append("*end of list.");
+        return sb.toString();
     }
 
 
