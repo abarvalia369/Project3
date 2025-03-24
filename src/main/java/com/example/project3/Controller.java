@@ -38,7 +38,7 @@ public class Controller implements Initializable {
     @FXML
     private TextField lname;
     @FXML
-    private DatePicker dob;
+    private TextField dob;
 
     //AccountTypes
     @FXML
@@ -70,7 +70,7 @@ public class Controller implements Initializable {
     @FXML
     private ComboBox<String> termBox;
     @FXML
-    private DatePicker cdDate;
+    private TextField cdDate;
 
     //initialDeposit
     @FXML
@@ -99,11 +99,17 @@ public class Controller implements Initializable {
     @FXML
     private Button withdraw;
     @FXML
-    private DatePicker closingDate;
+    private TextField closingDate;
     @FXML
     private Button close;
     @FXML
     private Button closeAll;
+    @FXML
+    private TextField fname2;
+    @FXML
+    private TextField lname2;
+    @FXML
+    private TextField dob2;
 
     //tab 3 (account database)
     @FXML
