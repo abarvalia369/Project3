@@ -615,29 +615,45 @@ public class Controller implements Initializable {
     }
 
     private String closeByProfile(){
-        String firstName = fname.getText().trim();
-        String lastName = lname.getText().trim();
+        String firstName = fname2.getText().trim();
+        String lastName = lname2.getText().trim();
         if (closingDate.getText().isEmpty()) {
             return "Missing data: Please select a closing date.";
         }
         String[] closeParts = closingDate.getText().split("/");
-        int closeMonth = Integer.parseInt(closeParts[0]);
-        int closeDay = Integer.parseInt(closeParts[1]);
-        int closeYear = Integer.parseInt(closeParts[2]);
+        if (closeParts.length != 3) {
+            return "Closing date must be in MM/DD/YYYY format.";
+        }
+        int closeMonth, closeDay, closeYear;
+        try {
+            closeMonth = Integer.parseInt(closeParts[0]);
+            closeDay = Integer.parseInt(closeParts[1]);
+            closeYear = Integer.parseInt(closeParts[2]);
+        } catch (NumberFormatException e) {
+            return "Closing date contains invalid numbers.";
+        }
         Date closeDate = new Date(closeYear, closeMonth, closeDay);
 
-        String[] dobParts = dob.getText().split("/");
-        int dobMonth = Integer.parseInt(dobParts[0]);
-        int dobDay = Integer.parseInt(dobParts[1]);
-        int dobYear = Integer.parseInt(dobParts[2]);
+        String[] dobParts = dob2.getText().trim().split("/");
+        if (dobParts.length != 3) {
+            return "DOB must be in MM/DD/YYYY format.";
+        }
+        int dobMonth, dobDay, dobYear;
+        try {
+            dobMonth = Integer.parseInt(dobParts[0]);
+            dobDay = Integer.parseInt(dobParts[1]);
+            dobYear = Integer.parseInt(dobParts[2]);
+        } catch (NumberFormatException e) {
+            return "DOB contains invalid numbers. Please enter valid digits (MM/DD/YYYY).";
+        }
         Date birth = new Date(dobYear, dobMonth, dobDay);
 
 
         Profile profile = new Profile(firstName, lastName, birth);
 
         boolean found = false;
-        String s1 = "Closing accounts for " + profile;
-
+        StringBuilder sb = new StringBuilder();
+        sb.append("Closing accounts for ").append(profile).append("\n");
 
         // Loop through accounts and collect matches
         for (int i = 0; i < database.size(); i++) {
@@ -652,8 +668,8 @@ public class Controller implements Initializable {
                     if (daysOpen >= cd.getTerm() * 30) {
                         double rate = cd.getRate(); // based on 3, 6, 9, 12 month terms
                         earnedInterest = cd.getBalance() * (rate / 365.0) * daysOpen;
-                        String formatted = String.format("$%.2f", earnedInterest);
-                        s1 += ("\n" + "--" + acctNum + " interest earned: " + formatted);
+                        sb.append("--").append(acctNum).append(" interest earned: ")
+                                .append(String.format("$%.2f", earnedInterest)).append("\n");
                     } else {
                         double earlyRate = 0.;
                         if (daysOpen / 30.0  <= 6) earlyRate = 0.03;
@@ -663,16 +679,16 @@ public class Controller implements Initializable {
                         earnedInterest = cd.getBalance() * (earlyRate / 365.0) * daysOpen;
                         double penalty = earnedInterest * 0.10;
                         penalty = roundUpToTwoDecimal(penalty);
-                        String formatted = String.format("$%.2f", earnedInterest);
-                        s1 += ("\n" + "--" + acctNum + " interest earned: " + formatted);
-                        s1 += ("\n" + "  [penalty] $" + penalty);
+                        sb.append("--").append(acctNum).append(" interest earned: ")
+                                .append(String.format("$%.2f", earnedInterest)).append("\n");
+                        sb.append("  [penalty] $").append(penalty).append("\n");
                     }
                 } else {
                     int daysInMonth = closeDate.getDay();
                     double annualRate = getAnnualRate(acct);
                     earnedInterest = acct.getBalance() * (annualRate / 365.0) * daysInMonth;
-                    String formatted = String.format("$%.2f", earnedInterest);
-                    s1 += ("\n" + "--" + acctNum + " interest earned: " + formatted);
+                    sb.append("--").append(acctNum).append(" interest earned: ")
+                            .append(String.format("$%.2f", earnedInterest)).append("\n");
                 }
 
                 database.getArchive().add(acct, closeDate);
@@ -681,11 +697,11 @@ public class Controller implements Initializable {
             }
         }
         if (!found) {
-            s1 += ("\n" + profile + " does not have any accounts in the database.");
+            sb.append(profile).append(" does not have any accounts in the database.\n");
         } else {
-            s1 += ("\n" + "All accounts for " + profile + " are closed and moved to archive.");
+            sb.append("All accounts for ").append(profile).append(" are closed and moved to archive.");
         }
-        return s1;
+        return sb.toString();
     }
 
 
