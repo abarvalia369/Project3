@@ -36,37 +36,46 @@ public abstract class Account implements Comparable<Account> {
      *
      *
      */
-    public final void statement() { //Template Method; DO NOT modify
-        printActivities(); //private helper method
-        double interest = interest(); //polymorphism based on actual type
-        double fee = fee(); //polymorphism based on actual type
-        printInterestFee(interest, fee); //private helper method
-        printBalance(interest, fee); //private helper method
-    }
+    public final String statement() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getActivitiesString());
 
+        double interest = interest(); // polymorphic
+        double fee = fee();           // polymorphic
+
+        sb.append(getInterestFeeString(interest, fee));
+        sb.append(getBalanceString(interest, fee));
+
+        return sb.toString();
+    }
     /**
      * helper method
      *
      *
      */
-    public void printActivities(){
+    private String getActivitiesString() {
         if (activities == null || activities.isEmpty()) {
-            return;
+            return ""; // no activities to show
         }
-        System.out.println("[Activity]");
-        for(int i = 0; i < activities.size(); i++){
-            System.out.println(String.format(activities.get(i).getDate()  + "::" +  activities.get(i).getLocation().toString().toUpperCase() +
-                    "::" + activities.get(i).getType() + "::$%,.2f", activities.get(i).getAmount()));
+        StringBuilder sb = new StringBuilder();
+        sb.append("[Activity]\n");
+        for (int i = 0; i < activities.size(); i++) {
+            sb.append(String.format("%s::%s::%s::%,.2f\n",
+                    activities.get(i).getDate(),
+                    activities.get(i).getLocation().toString().toUpperCase(),
+                    activities.get(i).getType(),
+                    activities.get(i).getAmount()));
         }
+        return sb.toString();
     }
 
-    public void printInterestFee(double interest,double fee){
-        System.out.println("[interest] " + String.format("$%,.2f", interest) + " [Fee] " + String.format("$%.2f", fee));
+    private String getInterestFeeString(double interest, double fee) {
+        return String.format("[interest] $%,.2f [Fee] $%.2f\n", interest, fee);
     }
 
-    public void printBalance(double interest, double fee){
+    private String getBalanceString(double interest, double fee) {
         double newBalance = balance + interest - fee;
-        System.out.println("[Balance] " + String.format("$%,.2f", newBalance));
+        return String.format("[Balance] $%,.2f\n", newBalance);
     }
 
     public void addActivity(Activity activity){

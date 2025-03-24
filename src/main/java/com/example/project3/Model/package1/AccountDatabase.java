@@ -168,31 +168,37 @@ public class AccountDatabase extends List<Account> {
         return archive;
     }
 
-    public void printByBranch() {
+    public String printByBranch() {
         Sort.AccountSort(this, 'B');
-        System.out.println("*List of accounts ordered by branch location (county, city).");
+        StringBuilder sb = new StringBuilder();
+        sb.append("*List of accounts ordered by branch location (county, city).\n");
         for (Account account : this) {
-            System.out.println(account);
+            sb.append(account).append("\n");
         }
-        System.out.println("*end of list.");
+        sb.append("*end of list.");
+        return sb.toString();
     }
 
-    public void printByHolder() {
+    public String printByHolder() {
         Sort.AccountSort(this, 'H');
-        System.out.println("*List of accounts ordered by account holder and number.");
+        StringBuilder sb = new StringBuilder();
+        sb.append("*List of accounts ordered by branch location (county, city).\n");
         for (Account account : this) {
-            System.out.println(account);
+            sb.append(account).append("\n");
         }
-        System.out.println("*end of list.");
+        sb.append("*end of list.");
+        return sb.toString();
     }
 
-    public void printByType() {
+    public String printByType() {
         Sort.AccountSort(this, 'T');
-        System.out.println("*List of accounts ordered by account type and number.");
+        StringBuilder sb = new StringBuilder();
+        sb.append("*List of accounts ordered by branch location (county, city).\n");
         for (Account account : this) {
-            System.out.println(account);
+            sb.append(account).append("\n");
         }
-        System.out.println("*end of list.");
+        sb.append("*end of list.");
+        return sb.toString();
     }
 
 
@@ -230,16 +236,17 @@ public class AccountDatabase extends List<Account> {
     /**
      * A method for printing the current archived accounts
      */
-    public void printStatements() {
-        System.out.println("*Account statements by account holder*");
+    public String printStatements() {
 
-        List<Profile> seenProfiles = new List<>(); // use your util.List
+        StringBuilder sb = new StringBuilder();
+        sb.append("*Account statements by account holder*\n");
+
+        List<Profile> seenProfiles = new List<>(); // your custom util.List
 
         for (int i = 0; i < this.size(); i++) {
             Account currentAccount = this.get(i);
             Profile currentHolder = currentAccount.getHolder();
 
-            // Skip if already printed this holder
             boolean alreadyPrinted = false;
             for (int j = 0; j < seenProfiles.size(); j++) {
                 if (seenProfiles.get(j).equals(currentHolder)) {
@@ -249,23 +256,20 @@ public class AccountDatabase extends List<Account> {
             }
             if (alreadyPrinted) continue;
 
-            // Mark this holder as seen
             seenProfiles.add(currentHolder);
-
-            // Print each account under this profile
-            System.out.println((seenProfiles.size()) + ". " + currentHolder.toString());
+            sb.append(seenProfiles.size()).append(". ").append(currentHolder).append("\n");
 
             for (int k = 0; k < this.size(); k++) {
                 Account account = this.get(k);
                 if (account.getHolder().equals(currentHolder)) {
-                    System.out.println("[Account #] " + account.getNumber());
-                    account.statement();
-                    System.out.println();
+                    sb.append("[Account #] ").append(account.getNumber()).append("\n");
+                    sb.append(account.statement()).append("\n\n"); // assuming .statement() returns a String
                 }
             }
         }
 
-        System.out.println("*end of statements*");
+        sb.append("*end of statements*");
+        return sb.toString();
     } //print account statements
 
 

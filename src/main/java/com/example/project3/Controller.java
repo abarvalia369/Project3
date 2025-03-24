@@ -233,10 +233,59 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    private void handlePrintAccounts() {
-        String result = database.toString(); // or call another method that formats printout
+    private void handlePrintAccountsByHolder() {
+        String result = returnByHolderLogic();
         textArea.appendText(result + "\n");
     }
+
+    @FXML
+    private void handlePrintAccountsByType() {
+        String result = returnByTypeLogic();
+        textArea.appendText(result + "\n");
+    }
+
+    @FXML
+    private void handlePrintAccountsByBranch() {
+        String result = returnByBranchLogic();
+        textArea.appendText(result + "\n");
+    }
+
+    @FXML
+    private void handlePrintArchive() {
+        String result =  returnArchiveLogic();
+        textArea.appendText(result + "\n");
+    }
+
+    @FXML
+    private void handlePrintStatements() {
+        String result = returnStatementLogic();
+        textArea.appendText(result + "\n");
+    }
+
+
+    private String returnByHolderLogic(){
+        return database.printByHolder();
+    }
+
+    private String returnByTypeLogic(){
+        return database.printByType();
+    }
+
+    private String returnByBranchLogic(){
+        return database.printByBranch();
+    }
+
+
+    private String returnArchiveLogic(){
+        return database.getArchive().toString();
+    }
+
+    private String returnStatementLogic(){
+        return database.printStatements();
+    }
+
+
+
 
     // Add all other handlers...
 
