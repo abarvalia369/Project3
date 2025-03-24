@@ -213,6 +213,42 @@ public class Date implements Comparable<Date> {
         return true;
     }
 
+    public boolean isValidFuture() {
+        boolean isLeapYear = false;
+        if (year < 0) return false;
+        if (year % 4 == 0) { //must be divisible by four years
+            if (year % 100 != 0) { //if divisible by four, must not be divisible by 100
+                isLeapYear = true;
+            } else if (year % 400 == 0) { // unless also divisible by 400 years
+                isLeapYear = true;
+            }
+        }
+        //Check if valid month
+        if (month < JANUARY || month > DECEMBER)
+            return false;
+        //Check if valid day according to month
+        if (day < 1) //first of the month
+            return false;
+        if (month == FEBRUARY) {
+            if (isLeapYear) {
+                if (day > FEBRUARYLEAP)
+                    return false;
+            } else {
+                if (day > FEBRUARYDAYS)
+                    return false;
+            }
+        } else {
+            if (month == JANUARY || month == MARCH || month == MAY || month == JULY || month == AUGUST || month == OCTOBER || month == DECEMBER) {
+                if (day > LONGMONTHDAYS)
+                    return false;
+            } else if (day > SHORTMONTHDAYS)
+                return false;
+        }
+        return true;
+    }
+
+
+
 
     public static void main(String[] args) {
         Date date0 = new Date(2023, 3, 0);

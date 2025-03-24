@@ -172,7 +172,6 @@ public class Controller implements Initializable {
             boolean isCd = (newValue == cd);
             if( !isCd ){
                 termBox.getSelectionModel().clearSelection();
-                cdDate.setValue(null);
             }
 
         });
@@ -186,14 +185,14 @@ public class Controller implements Initializable {
     private void clearAll(){
         fname.clear();
         lname.clear();
-        dob.setValue(null);
+        dob.clear();
         collegeChecking.setSelected(false);
         checking.setSelected(false);
         savings.setSelected(false);
         moneyMarket.setSelected(false);
         cd.setSelected(false);
         termBox.getSelectionModel().clearSelection();
-        cdDate.setValue(null);
+        cdDate.clear();
         branchBox.getSelectionModel().clearSelection();
         initialDeposit.clear();
     }
@@ -244,7 +243,7 @@ public class Controller implements Initializable {
     // 👇 These are helper methods (NO @FXML), adapted from TM
     private String openAccountLogic() {
 
-        if (fname.getText().isEmpty() || lname.getText().isEmpty() || dob.getValue() == null || initialDeposit.getText().isEmpty() || branchBox.getValue() == null)
+        if (fname.getText().isEmpty() || lname.getText().isEmpty() || dob.getText().isEmpty() || initialDeposit.getText().isEmpty() || branchBox.getValue() == null)
             return "Missing data needed to open an account.";
 
         String accountTypeStr = ((RadioButton) accountType.getSelectedToggle()).getText().toLowerCase();
@@ -253,8 +252,12 @@ public class Controller implements Initializable {
         double amount;
         try { amount = Double.parseDouble(initialDeposit.getText()); } catch (Exception e) { return "Invalid initial deposit."; }
 
-        LocalDate dobVal = dob.getValue();
-        Date dobDate = new Date(dobVal.getYear(), dobVal.getMonthValue(), dobVal.getDayOfMonth());
+        String[] dobParts = dob.getText().split("/");
+        int dobMonth = Integer.parseInt(dobParts[0]);
+        int dobDay = Integer.parseInt(dobParts[1]);
+        int dobYear = Integer.parseInt(dobParts[2]);
+        Date dobDate = new Date(dobYear, dobMonth, dobDay);
+
         Profile holder = new Profile(fname.getText(), lname.getText(), dobDate);
 
         Branch branch = Branch.valueOf(branchStr.substring(0, 1).toUpperCase() + branchStr.substring(1).toLowerCase());
@@ -351,12 +354,12 @@ public class Controller implements Initializable {
                     account = database.createAccount(type, branch, holder, amount, campus);
                     break;
                 case CD:
-                    if (termBox.getValue() == null || cdDate.getValue() == null) {
+                    if (termBox.getValue() == null || cdDate.getText().isEmpty()) {
                         return "Missing data tokens for opening an account.";
                     }
                     int term = Integer.parseInt(termBox.getValue());
-                    LocalDate startVal = cdDate.getValue();
-                    Date startDate = new Date(startVal.getYear(), startVal.getMonthValue(), startVal.getDayOfMonth());
+                    Date startDate = new Date(cdDate.getText());
+                    //Date startDate = new Date(startVal.getYear(), startVal.getMonthValue(), startVal.getDayOfMonth());
                     if(term != 3 && term != 6 && term != 9 && term != 12){
                         return term + " is not a valid term.";
                     }
@@ -465,11 +468,15 @@ public class Controller implements Initializable {
 
     private String closeByAcc(){
         String accountNumberStr = acctnum.getText().trim();
-        LocalDate closeDateVal = closingDate.getValue();
-        if (closeDateVal == null) {
+        if (closingDate.getText().isEmpty()) {
             return "Missing data: Please select a closing date.";
         }
-        Date closeDate = new Date(closeDateVal.getYear(), closeDateVal.getMonthValue(), closeDateVal.getDayOfMonth());
+
+        String[] closeParts = closingDate.getText().split("/");
+        int closeMonth = Integer.parseInt(closeParts[0]);
+        int closeDay = Integer.parseInt(closeParts[1]);
+        int closeYear = Integer.parseInt(closeParts[2]);
+        Date closeDate = new Date(closeYear, closeMonth, closeDay);
 
         int index = database.findAccount(accountNumberStr);
         if(index == -1){
@@ -477,7 +484,7 @@ public class Controller implements Initializable {
         }
         Account acct = database.get(index);
         AccountNumber acctNum = acct.getNumber();
-        String s1, s2, s3 = null;
+        String s1, s2, s3 = "";
         double earnedInterest = 0;
         if (acct instanceof CertificateDeposit cd) {
             Date openDate = cd.getOpen(); // assuming getter exists
@@ -518,13 +525,22 @@ public class Controller implements Initializable {
     private String closeByProfile(){
         String firstName = fname.getText().trim();
         String lastName = lname.getText().trim();
-        LocalDate closeDateVal = closingDate.getValue();
-        if (closeDateVal == null) {
+        if (closingDate.getText().isEmpty()) {
             return "Missing data: Please select a closing date.";
         }
-        Date closeDate = new Date(closeDateVal.getYear(), closeDateVal.getMonthValue(), closeDateVal.getDayOfMonth());
-        LocalDate birthVal = dob.getValue();
-        Date birth = new Date(birthVal.getYear(), birthVal.getMonthValue(), birthVal.getDayOfMonth());
+        String[] closeParts = closingDate.getText().split("/");
+        int closeMonth = Integer.parseInt(closeParts[0]);
+        int closeDay = Integer.parseInt(closeParts[1]);
+        int closeYear = Integer.parseInt(closeParts[2]);
+        Date closeDate = new Date(closeYear, closeMonth, closeDay);
+
+        String[] dobParts = dob.getText().split("/");
+        int dobMonth = Integer.parseInt(dobParts[0]);
+        int dobDay = Integer.parseInt(dobParts[1]);
+        int dobYear = Integer.parseInt(dobParts[2]);
+        Date birth = new Date(dobYear, dobMonth, dobDay);
+
+
         Profile profile = new Profile(firstName, lastName, birth);
 
         boolean found = false;
