@@ -90,6 +90,23 @@ public class Controller implements Initializable {
     @FXML
     private Button closeAll;
 
+    //tab 3 (account database)
+    @FXML
+    private Button loadAccountsFromFile;
+    @FXML
+    private Button printByHolder;
+    @FXML
+    private Button printByType;
+    @FXML
+    private Button printArchive;
+    @FXML
+    private Button loadActivitiesFromFile;
+    @FXML
+    private Button printByBranch;
+    @FXML
+    private Button printAccountStatements;
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

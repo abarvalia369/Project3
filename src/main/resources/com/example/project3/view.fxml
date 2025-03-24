@@ -273,7 +273,30 @@
             </Tab>
             <Tab text="Account Database">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane layoutX="188.0" layoutY="58.0" prefHeight="351.0" prefWidth="622.0" AnchorPane.bottomAnchor="63.0" AnchorPane.leftAnchor="188.0" AnchorPane.rightAnchor="182.0" AnchorPane.topAnchor="58.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Button fx:id="loadAccountsFromFile" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="LOAD ACCOUNTS FROM FILE" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Button fx:id="printByHolder" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="PRINT BY HOLDER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                              <Button fx:id="printByType" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="PRINT BY TYPE" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                              <Button fx:id="printArchive" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="PRINT ARCHIVE" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                              <Button fx:id="loadActivitiesFromFile" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="LOAD ACTIVITIES FROM FILE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Button fx:id="PrintByBranch" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="PRINT BY BRANCH" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                              <Button fx:id="printAccountStatements" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="PRINT ACCOUNT STATEMENTS" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                           </children>
+                        </GridPane>
+                     </children></AnchorPane>
               </content>
             </Tab>
         </tabs>
