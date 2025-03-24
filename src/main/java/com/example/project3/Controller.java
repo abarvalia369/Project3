@@ -216,8 +216,14 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    private void handleCloseAccount() {
-        String result = closeAccountLogic();
+    private void handleCloseByAccount() {
+        String result = closeByAcc();
+        textArea.appendText(result + "\n");
+    }
+
+    @FXML
+    private void handleCloseByProfile(){
+        String result = closeByProfile();
         textArea.appendText(result + "\n");
     }
 
@@ -449,27 +455,16 @@ public class Controller implements Initializable {
         }
     }
 
-    private String closeAccountLogic(){
+
+
+    private String closeByAcc(){
+        String accountNumberStr = acctnum.getText().trim();
         LocalDate closeDateVal = closingDate.getValue();
         if (closeDateVal == null) {
             return "Missing data: Please select a closing date.";
         }
         Date closeDate = new Date(closeDateVal.getYear(), closeDateVal.getMonthValue(), closeDateVal.getDayOfMonth());
 
-        String acctNumStr = acctnum.getText().trim();
-
-        if (!acctNumStr.isEmpty()) {
-            return closeByAcc(acctNumStr, closeDate);
-        } else if (!fname.getText().isEmpty() && !lname.getText().isEmpty() && dob.getValue() != null) {
-            LocalDate birthVal = closingDate.getValue();
-            Date birth = new Date(birthVal.getYear(), birthVal.getMonthValue(), birthVal.getDayOfYear());
-            return closeByProfile(fname.getText().trim(), lname.getText().trim(), birth, closeDate);
-        } else {
-            return "Please fill either Account Number or Profile information (First, Last, DOB) to close account(s).";
-        }
-    }
-
-    private String closeByAcc(String accountNumberStr, Date closeDate){
         int index = database.findAccount(accountNumberStr);
         if(index == -1){
             return accountNumberStr + " does not exist";
@@ -514,8 +509,17 @@ public class Controller implements Initializable {
         return s1 + "\n" + s2 + "\n" + s3;
     }
 
-    private String closeByProfile(String firstName,String lastName, Date closeDate, Date dob){
-        Profile profile = new Profile(firstName, lastName, dob);
+    private String closeByProfile(){
+        String firstName = fname.getText().trim();
+        String lastName = lname.getText().trim();
+        LocalDate closeDateVal = closingDate.getValue();
+        if (closeDateVal == null) {
+            return "Missing data: Please select a closing date.";
+        }
+        Date closeDate = new Date(closeDateVal.getYear(), closeDateVal.getMonthValue(), closeDateVal.getDayOfMonth());
+        LocalDate birthVal = closingDate.getValue();
+        Date birth = new Date(birthVal.getYear(), birthVal.getMonthValue(), birthVal.getDayOfYear());
+        Profile profile = new Profile(firstName, lastName, birth);
 
         boolean found = false;
         String s1 = "Closing accounts for " + profile;
