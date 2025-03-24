@@ -236,6 +236,7 @@ public class Controller implements Initializable {
             return "Missing data needed to open an account.";
 
         String accountTypeStr = ((RadioButton) accountType.getSelectedToggle()).getText().toLowerCase();
+        accountTypeStr = accountTypeStr.replaceAll("\\s+", "");
         String branchStr = branchBox.getValue().toLowerCase();
         double amount;
         try { amount = Double.parseDouble(initialDeposit.getText()); } catch (Exception e) { return "Invalid initial deposit."; }
