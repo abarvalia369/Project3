@@ -182,7 +182,7 @@ public class AccountDatabase extends List<Account> {
     public String printByHolder() {
         Sort.AccountSort(this, 'H');
         StringBuilder sb = new StringBuilder();
-        sb.append("*List of accounts ordered by branch location (county, city).\n");
+        sb.append("*List of accounts ordered by account holder and number.\n");
         for (Account account : this) {
             sb.append(account).append("\n");
         }
@@ -193,7 +193,7 @@ public class AccountDatabase extends List<Account> {
     public String printByType() {
         Sort.AccountSort(this, 'T');
         StringBuilder sb = new StringBuilder();
-        sb.append("*List of accounts ordered by branch location (county, city).\n");
+        sb.append("*List of accounts ordered by account type and number.\n");
         for (Account account : this) {
             sb.append(account).append("\n");
         }
@@ -237,7 +237,7 @@ public class AccountDatabase extends List<Account> {
      * A method for printing the current archived accounts
      */
     public String printStatements() {
-
+        Sort.AccountSort(this, 'H');
         StringBuilder sb = new StringBuilder();
         sb.append("*Account statements by account holder*\n");
 
