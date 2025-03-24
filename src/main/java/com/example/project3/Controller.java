@@ -517,8 +517,8 @@ public class Controller implements Initializable {
             return "Missing data: Please select a closing date.";
         }
         Date closeDate = new Date(closeDateVal.getYear(), closeDateVal.getMonthValue(), closeDateVal.getDayOfMonth());
-        LocalDate birthVal = closingDate.getValue();
-        Date birth = new Date(birthVal.getYear(), birthVal.getMonthValue(), birthVal.getDayOfYear());
+        LocalDate birthVal = dob.getValue();
+        Date birth = new Date(birthVal.getYear(), birthVal.getMonthValue(), birthVal.getDayOfMonth());
         Profile profile = new Profile(firstName, lastName, birth);
 
         boolean found = false;
