@@ -294,9 +294,19 @@
                               <Button fx:id="loadActivitiesFromFile" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="LOAD ACTIVITIES FROM FILE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                               <Button fx:id="PrintByBranch" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="PRINT BY BRANCH" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                               <Button fx:id="printAccountStatements" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="PRINT ACCOUNT STATEMENTS" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                              <Label fx:id="print" prefHeight="17.0" prefWidth="238.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                      </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="testTab">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="test" layoutX="137.0" layoutY="64.0" mnemonicParsing="false" onAction="#fileChooser" text="test" />
+                     </children>
+                  </AnchorPane>
               </content>
             </Tab>
         </tabs>
