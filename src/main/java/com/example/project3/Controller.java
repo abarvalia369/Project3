@@ -1,5 +1,10 @@
 package com.example.project3;
 
+import com.example.project3.Model.package1.*;
+import com.example.project3.Model.util.*;
+
+import java.time.LocalDate;
+
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,6 +15,7 @@ import java.util.ResourceBundle;
 import java.net.URL;
 
 public class Controller implements Initializable {
+    private AccountDatabase database = new AccountDatabase();
     @FXML
     private Label welcomeText;
 
@@ -175,6 +181,220 @@ public class Controller implements Initializable {
         cdDate.setValue(null);
         branchBox.getSelectionModel().clearSelection();
         initialDeposit.clear();
+    }
+
+    // Example handlers you'll implement (all mapped via FXML)
+    @FXML
+    private void handleOpenAccount() {
+        String result = openAccountLogic(); // helper method
+        textArea.appendText(result + "\n");
+    }
+
+    @FXML
+    private void handleDeposit() {
+        String result = depositLogic(); // helper method
+        textArea.appendText(result + "\n");
+    }
+
+    @FXML
+    private void handleWithdraw() {
+        String result = withdrawLogic(); // helper method
+        textArea.appendText(result + "\n");
+    }
+
+    @FXML
+    private void handleCloseAccount() {
+        String result = closeAccountLogic();
+        textArea.appendText(result + "\n");
+    }
+
+    @FXML
+    private void handlePrintAccounts() {
+        String result = database.toString(); // or call another method that formats printout
+        textArea.appendText(result + "\n");
+    }
+
+    // Add all other handlers...
+
+    // 👇 These are helper methods (NO @FXML), adapted from TM
+    private String openAccountLogic() {
+
+        if (fname.getText().isEmpty() || lname.getText().isEmpty() || dob.getValue() == null || initialDeposit.getText().isEmpty() || branchBox.getValue() == null)
+            return "Missing data needed to open an account.";
+
+        String accountTypeStr = ((RadioButton) accountType.getSelectedToggle()).getText().toLowerCase();
+        String branchStr = branchBox.getValue().toLowerCase();
+        double amount;
+        try { amount = Double.parseDouble(initialDeposit.getText()); } catch (Exception e) { return "Invalid initial deposit."; }
+
+        LocalDate dobVal = dob.getValue();
+        Date dobDate = new Date(dobVal.getYear(), dobVal.getMonthValue(), dobVal.getDayOfMonth());
+        Profile holder = new Profile(fname.getText(), lname.getText(), dobDate);
+
+        Branch branch = Branch.valueOf(branchStr.substring(0, 1).toUpperCase() + branchStr.substring(1).toLowerCase());
+        Account account = null;
+
+            if (!dobDate.isValid()) {
+                return "DOB invalid: " + dobDate;
+            }
+
+            Date today = new Date();
+            int todayYear = today.getYear();
+            int todayMonth = today.getMonth();
+            int todayDay = today.getDay();
+
+            int birthYear = dobDate.getYear();
+            int birthMonth = dobDate.getMonth();
+            int birthDay = dobDate.getDay();
+
+            int age = todayYear - birthYear;
+            if (todayMonth < birthMonth || (todayMonth == birthMonth && todayDay < birthDay)) {
+                age--;
+            }
+            if (age < 18) {
+                return "Applicant must be at least 18 years old.";
+            }
+
+            AccountType type;
+            switch (accountTypeStr.trim().toLowerCase()) {
+                case "checking":
+                    type = AccountType.Checking;
+                    break;
+                case "regularsavings", "savings":
+                    type = AccountType.RegularSavings;
+                    break;
+                case "moneymarketsavings", "moneymarket":
+                    type = AccountType.MoneyMarketSavings;
+                    break;
+                case "college", "collegechecking":
+                    type = AccountType.CollegeChecking;
+                    break;
+                case "certificate", "certificatedeposit", "cd":
+                    type = AccountType.CD;
+                    break;
+                default:
+                    return accountType + " is an invalid account type.";
+            }
+            switch (branchStr.toLowerCase()) {
+                case "edison":
+                    branch = Branch.Edison;
+                    break;
+                case "bridgewater":
+                    branch = Branch.Bridgewater;
+                    break;
+                case "princeton":
+                    branch = Branch.Princeton;
+                    break;
+                case "piscataway":
+                    branch = Branch.Piscataway;
+                    break;
+                case "warren":
+                    branch = Branch.Warren;
+                    break;
+                default:
+                    return branchStr + " is an invalid branch.";
+            }
+
+
+            if (amount <= 0 || (type == AccountType.MoneyMarketSavings && amount < 2000) || (type == AccountType.CD && amount < 1000)){
+                return "Invalid initial deposit amount.";
+            }
+
+            switch (type) {
+                case Checking:
+                case RegularSavings:
+                case MoneyMarketSavings:
+                    // Use the 4-arg createAccount
+                    if (exists(holder,type)) {
+                        return holder + " already has a " + type + " account.";
+                    }
+                    account = database.createAccount(type, branch, holder, amount);
+                    break;
+                case CollegeChecking:
+                    if (campuses.getSelectedToggle() == null) {
+                        return "Missing data tokens for opening an account.";
+                    }
+                    if (age >= 24) {
+                        return "Not eligible to open: " + dob.toString() + " over 24.";
+                    }
+                    if (exists(holder,type)) {
+                        return holder + " already has a " + type + " account.";
+                    }
+
+                    RadioButton selectedCampus = (RadioButton) campuses.getSelectedToggle();
+                    String campusText = selectedCampus.getText().toLowerCase();
+
+                    Campus campus;
+                    switch (campusText) {
+                        case "new brunswick":
+                            campus = Campus.NewBrunswick;
+                            break;
+                        case "newark":
+                            campus = Campus.Newark;
+                            break;
+                        case "camden":
+                            campus = Campus.Camden;
+                            break;
+                        default:
+                            return "Invalid campus selection.";
+                    }
+
+                    account = database.createAccount(type, branch, holder, amount, campus);
+                    break;
+                case CD:
+                    if (termBox.getValue() == null || cdDate.getValue() == null) {
+                        return "Missing data tokens for opening an account.";
+                    }
+                    int term = Integer.parseInt(termBox.getValue());
+                    LocalDate startVal = cdDate.getValue();
+                    Date startDate = new Date(startVal.getYear(), startVal.getMonthValue(), startVal.getDayOfMonth());
+                    if(term != 3 && term != 6 && term != 9 && term != 12){
+                        return term + " is not a valid term.";
+                    }
+                    account = database.createAccount(type, branch, holder, amount, term, startDate);
+                    break;
+            }
+
+            database.add(account);
+            return type + " account " + account.getNumber() + " has been opened.";
+
+    }
+
+    private boolean exists(Profile holder, AccountType type){
+            for (int i = 0; i < this.database.size(); i++) {
+                Account existing = this.database.get(i);
+
+                if (existing.getHolder().equals(holder) && existing.getNumber().getAccountType() == type) {
+                    //System.out.println(" Duplicate found: " + holder + " already has a " + type + " account.");
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+    private Campus parseCampus(String string) {
+            switch (string) {
+                case "1": return Campus.NewBrunswick;
+                case "2": return Campus.Newark;
+                case "3": return Campus.Camden;
+                default:  return null;
+            }
+        }
+
+    private String depositLogic() {
+        // Same idea, pull data, validate, apply deposit, return message
+        return null;
+    }
+
+    private String withdrawLogic() {
+        // Same pattern
+        return null;
+    }
+
+    private String closeAccountLogic() {
+        // Close by account or profile logic
+        return null;
     }
 
 }

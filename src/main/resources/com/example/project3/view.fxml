@@ -21,7 +21,7 @@
 
 <BorderPane prefHeight="647.0" prefWidth="992.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project3.Controller">
    <bottom>
-      <TextArea fx:id="amount" prefHeight="130.0" prefWidth="992.0" BorderPane.alignment="CENTER" />
+      <TextArea fx:id="textArea" prefHeight="130.0" prefWidth="992.0" BorderPane.alignment="CENTER" />
    </bottom>
    <top>
       <HBox prefHeight="14.0" prefWidth="992.0" BorderPane.alignment="CENTER" />
@@ -138,7 +138,7 @@
                                  </GridPane.margin>
                               </GridPane>
                               <ComboBox fx:id="branchBox" prefWidth="150.0" promptText="Branch" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-                              <Button fx:id="open" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Open" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                              <Button fx:id="open" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Open" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" onAction="#handleOpenAccount" />
                               <Button fx:id="clearAllFields" mnemonicParsing="false" onAction="#clearAll" prefHeight="25.0" prefWidth="134.0" text="Clear All Fields" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
                            </children>
                         </GridPane>
