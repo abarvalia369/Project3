@@ -254,7 +254,7 @@
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <children>
-                                    <Button fx:id="deposit" mnemonicParsing="false" text="    Deposit    ">
+                                    <Button fx:id="deposit" mnemonicParsing="false" text="    Deposit    " onAction="#handleDeposit">
                                        <HBox.margin>
                                           <Insets left="5.0" right="10.0" />
                                        </HBox.margin>

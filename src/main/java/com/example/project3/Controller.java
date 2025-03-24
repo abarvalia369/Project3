@@ -198,7 +198,9 @@ public class Controller implements Initializable {
 
     @FXML
     private void handleDeposit() {
-        String result = depositLogic(); // helper method
+        String accountNumberStr = acctnum.getText();
+        String amountStr = dorwAmount.getText();
+        String result = depositLogic(accountNumberStr, amountStr); // helper method
         textArea.appendText(result + "\n");
     }
 
@@ -362,7 +364,7 @@ public class Controller implements Initializable {
             }
 
             database.add(account);
-            return type + " account " + account.getNumber() + " has been opened.";
+            return type + " account " + account.getNumber() + " has been opened." + dobDate;
 
     }
 
@@ -388,9 +390,26 @@ public class Controller implements Initializable {
             }
         }
 
-    private String depositLogic() {
-        // Same idea, pull data, validate, apply deposit, return message
-        return null;
+    private String depositLogic(String acctnumber, String dAmount) {
+        int index = database.findAccount(acctnumber);
+        if (index == -1) return acctnumber + " does not exist.";
+
+        Account acct = database.get(index);
+        AccountNumber acctNum = acct.getNumber();
+        double depositAmount;
+
+        try { depositAmount = Double.parseDouble(dAmount); }
+        catch (NumberFormatException e) { return "Invalid deposit type: " + dAmount; }
+
+        if (depositAmount <= 0) return depositAmount + " - deposit amount cannot be 0 or negative.";
+
+        Date date = new Date();
+        Branch branch = acctNum.getBranch();
+        Activity act = new Activity(date, branch, 'D', depositAmount, true);
+        acct.addActivity(act);
+        //String old = "OLD: " + acct.getBalance();
+        database.deposit(acctNum, depositAmount);
+        return String.format("$%.2f deposited to %s. New balance: $%.2f", depositAmount, acctnumber, acct.getBalance());
     }
 
     private String withdrawLogic() {
