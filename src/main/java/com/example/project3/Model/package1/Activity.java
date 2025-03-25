@@ -4,6 +4,7 @@ package com.example.project3.Model.package1;
 import com.example.project3.Model.util.Date;
 import com.example.project3.Model.util.List;
 
+
 public class Activity implements Comparable<Activity> {
     private Date date;
     private Branch location; //the location of the activity
@@ -11,6 +12,14 @@ public class Activity implements Comparable<Activity> {
     private double amount;
     private boolean atm; //true if this is made at an ATM (from the text file)
 
+    /**
+     * Initializes an Activity Object
+     * @param date
+     * @param location
+     * @param type
+     * @param amount
+     * @param atm
+     */
     public Activity(Date date, Branch location, char type, double amount, boolean atm) {
         this.date = date;
         this.location = location;
