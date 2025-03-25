@@ -194,6 +194,12 @@ public class Controller implements Initializable {
         branchBox.getSelectionModel().clearSelection();
         initialDeposit.clear();
     }
+    /**
+     * HANDLERS
+     *
+     *
+     * No params or return types, just calls the logic for commands, and used as linker to FXML using onAction
+     */
 
     // Example handlers you'll implement (all mapped via FXML)
     @FXML
@@ -260,6 +266,12 @@ public class Controller implements Initializable {
         textArea.appendText(result + "\n");
     }
 
+    /**
+     * handleLoadAccounts
+     *
+     * This method makes it so we can take a .txt file, then goes through that file and adds
+     * all account information to database.
+     */
     @FXML
     private void handleLoadAccounts(){
         FileChooser fileChooser = new FileChooser();
@@ -281,6 +293,13 @@ public class Controller implements Initializable {
 
     }
 
+
+    /**
+     * handleLoadAccounts
+     *
+     * This method makes it so we can take a .txt file, then goes through that file and
+     * processes all the predetermined activities for preloaded accounts.
+     */
     @FXML
     private void handleLoadActivities(){
         FileChooser fileChooser = new FileChooser();
@@ -303,7 +322,12 @@ public class Controller implements Initializable {
 
     }
 
-
+    /**
+     * RETURN BY
+     *
+     * @return a concated string version of all the accounts in database sorted by
+     * a set of rules either holder, type or branch
+     */
     private String returnByHolderLogic(){
         return database.returnByHolder();
     }
@@ -316,11 +340,19 @@ public class Controller implements Initializable {
         return database.returnByBranch();
     }
 
-
+    /**
+     * RETURN ARCHIVE
+     *
+     * @return a concated string version of all the accounts in Archive
+     */
     private String returnArchiveLogic(){
         return database.getArchive().print();
     }
-
+    /**
+     * RETURN STATEMENT
+     *
+     * @return a concated string version of each profiles statements for the last cycle, including activities
+     */
     private String returnStatementLogic(){
         return database.printStatements();
     }
@@ -328,9 +360,12 @@ public class Controller implements Initializable {
 
 
 
-    // Add all other handlers...
-
-    // 👇 These are helper methods (NO @FXML), adapted from TM
+    /**
+     * OPEN
+     *
+     * Using information given we are able to openAccounts of all Types
+     * @return String on whether or not the application was able to openAccount from provided information.
+     */
     private String openAccountLogic() {
 
         if (fname.getText().isEmpty() || lname.getText().isEmpty() || dob.getText().isEmpty() || initialDeposit.getText().isEmpty() || branchBox.getValue() == null)
@@ -520,7 +555,12 @@ public class Controller implements Initializable {
                 default:  return null;
             }
         }
-
+    /**
+     * RETURN DEPOSIT
+     *
+     * Using information given we are able to deposit and change balance of account;
+     * @return String on the amount of money deposited to an Account, or if invalid amount was given.
+     */
     private String depositLogic(String acctnumber, String dAmount) {
         int index = database.findAccount(acctnumber);
         if (index == -1) return acctnumber + " does not exist.";
@@ -543,6 +583,12 @@ public class Controller implements Initializable {
         return String.format("$%.2f deposited to %s. New balance: $%.2f", depositAmount, acctnumber, acct.getBalance());
     }
 
+    /**
+     * WITHDRAW
+     *
+     * Using information given we are able to withdraw and change balance of account;
+     * @return String on the amount of money withdrawn to an Account, or if invalid amount was given.
+     */
     private String withdrawLogic(String acctnumber, String wAmount) {
         int index = database.findAccount(acctnumber);
         if (index == -1) return acctnumber + " does not exist.";
@@ -575,7 +621,12 @@ public class Controller implements Initializable {
     }
 
 
-
+    /**
+     * CLOSE BY ACCOUNT
+     *
+     * Using information given we are able to close an account and add it to archive;
+     * @return String of account closed, interest earned,  and penalty if applicable
+     */
     private String closeByAcc(){
         String accountNumberStr = acctnum.getText().trim();
         if (closingDate.getText().isEmpty()) {
@@ -641,7 +692,12 @@ public class Controller implements Initializable {
         database.remove(acct);
         return s1 + "\n" + s2 + "\n" + s3;
     }
-
+    /**
+     * CLOSE BY PROFILE
+     *
+     * Using information given we are able to close accounts and add them to archive for entire profile
+     * @return Concated String of accounts closed, interest earned, and penalty if applicable
+     */
     private String closeByProfile(){
         String firstName = fname2.getText().trim();
         String lastName = lname2.getText().trim();
