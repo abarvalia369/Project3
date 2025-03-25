@@ -155,7 +155,6 @@ public class Controller implements Initializable {
         //newark.disableProperty().bind(collegeChecking.selectedProperty().not());
         //camden.disableProperty().bind(collegeChecking.selectedProperty().not());
 
-        loyalCustomer.disableProperty().bind(savings.selectedProperty().not().and(moneyMarket.selectedProperty().not()));
 
         cdHBox.disableProperty().bind(cd.selectedProperty().not());
 
@@ -166,10 +165,7 @@ public class Controller implements Initializable {
                 campuses.selectToggle(null);
             }
 
-            boolean isSavings = (newValue == savings);
-            if( !isSavings ){
-                loyalCustomer.setSelected(false);
-            }
+
 
             boolean isCd = (newValue == cd);
             if( !isCd ){

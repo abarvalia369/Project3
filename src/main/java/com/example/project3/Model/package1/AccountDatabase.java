@@ -133,9 +133,14 @@ public class AccountDatabase extends List<Account> {
         int index = this.findAccount(number);
         double newBalance = this.get(index).getBalance() - amount;
         if (newBalance >= 2000.00) {
+            if (this.get(index) instanceof MoneyMarket mm) {mm.setWithdrawal(mm.getWithdrawal() + 1);}
             this.get(index).setBalance(newBalance);
             return true;
         } else if (newBalance > 0.00) {
+            if (this.get(index) instanceof MoneyMarket mm) {
+                mm.setWithdrawal(mm.getWithdrawal() + 1);
+                mm.setLoyalty(false);
+            }
             this.get(index).setBalance(newBalance);
             return true;
         } else {

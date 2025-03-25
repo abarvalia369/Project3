@@ -12,6 +12,15 @@ public class MoneyMarket extends Savings {
         this.withdrawal = 0;
     }
 
+    public int getWithdrawal() {
+        return this.withdrawal;
+    }
+
+    public void setWithdrawal(int w) {
+        this.withdrawal = w;
+    }
+
+
     @Override
     public String toString() {
         if(this.isLoyal){

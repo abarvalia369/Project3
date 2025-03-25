@@ -34,6 +34,10 @@ public class Savings extends Account {
         }
     }
 
+    public void setLoyalty(Boolean bool){
+        this.isLoyal = bool;
+    }
+
     public boolean loyalty(){
         return isLoyal;
     }
