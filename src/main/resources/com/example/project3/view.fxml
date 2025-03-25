@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
@@ -104,7 +103,6 @@
                                           <RadioButton fx:id="moneyMarket" mnemonicParsing="false" prefHeight="74.0" prefWidth="103.0" text="Money Market" toggleGroup="$accountType" />
                                        </children>
                                     </HBox>
-                                    <CheckBox fx:id="loyalCustomer" disable="true" mnemonicParsing="false" prefHeight="49.0" prefWidth="119.0" text="Loyal Customer" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <RadioButton fx:id="cd" mnemonicParsing="false" prefHeight="37.0" prefWidth="85.0" text="CD" toggleGroup="$accountType" GridPane.rowIndex="3" />
                                     <RadioButton fx:id="collegeChecking" mnemonicParsing="false" prefHeight="18.0" prefWidth="147.0" text="College Checking" toggleGroup="$accountType" GridPane.rowIndex="1" />
                                     <RadioButton fx:id="checking" mnemonicParsing="false" text="Checking" toggleGroup="$accountType" />
@@ -291,13 +289,13 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Button fx:id="loadAccountsFromFile" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="LOAD ACCOUNTS FROM FILE" GridPane.halignment="CENTER" GridPane.valignment="CENTER" onAction="#handleLoadAccounts"/>
-                              <Button fx:id="printByHolder" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="PRINT BY HOLDER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" onAction="#handleReturnAccountsByHolder"/>
-                              <Button fx:id="printByType" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="PRINT BY TYPE" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" onAction="#handleReturnAccountsByType"/>
-                              <Button fx:id="printArchive" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="PRINT ARCHIVE" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" onAction="#handleReturnArchive"/>
-                              <Button fx:id="loadActivitiesFromFile" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="LOAD ACTIVITIES FROM FILE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" onAction="#handleLoadActivities"/>
-                              <Button fx:id="PrintByBranch" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="PRINT BY BRANCH" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" onAction="#handleReturnAccountsByBranch"/>
-                              <Button fx:id="printAccountStatements" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="PRINT ACCOUNT STATEMENTS" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" onAction="#handleReturnStatements"/>
+                              <Button fx:id="loadAccountsFromFile" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="LOAD ACCOUNTS FROM FILE" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Button fx:id="printByHolder" alignment="CENTER" mnemonicParsing="false" onAction="#handlePrintAccountsByHolder" prefHeight="25.0" prefWidth="219.0" text="PRINT BY HOLDER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                              <Button fx:id="printByType" alignment="CENTER" mnemonicParsing="false" onAction="#handlePrintAccountsByType" prefHeight="25.0" prefWidth="219.0" text="PRINT BY TYPE" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                              <Button fx:id="printArchive" alignment="CENTER" mnemonicParsing="false" onAction="#handlePrintArchive" prefHeight="25.0" prefWidth="219.0" text="PRINT ARCHIVE" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                              <Button fx:id="loadActivitiesFromFile" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="LOAD ACTIVITIES FROM FILE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Button fx:id="PrintByBranch" alignment="CENTER" mnemonicParsing="false" onAction="#handlePrintAccountsByBranch" prefHeight="25.0" prefWidth="219.0" text="PRINT BY BRANCH" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                              <Button fx:id="printAccountStatements" alignment="CENTER" mnemonicParsing="false" onAction="#handlePrintStatements" prefHeight="25.0" prefWidth="219.0" text="PRINT ACCOUNT STATEMENTS" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
                               <Label fx:id="print" prefHeight="17.0" prefWidth="238.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
