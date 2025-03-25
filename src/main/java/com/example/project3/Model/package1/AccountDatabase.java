@@ -1,5 +1,6 @@
 package com.example.project3.Model.package1;
 
+
 import com.example.project3.Model.util.Date;
 import com.example.project3.Model.util.List;
 import com.example.project3.Model.util.Sort;
@@ -8,29 +9,35 @@ import java.io.IOException;
 import java.util.Scanner;
 
 
+
+
 /**
  Account class for RU Bank project.
  Represents a bank account with an account number, holder profile, and balance.
  Implements deposit and withdrawal operations.
  Overrides equals, toString, and compareTo.
 
+
  @author arpeet barvalia, jonathan john
  */
+
 
 public class AccountDatabase extends List<Account> {
     public static final int NOT_FOUND = -1;
     public static final int GROW = 4;
     private Archive archive; //a linked list of closed account
 
+
     /**
      * Initializes an AccountDataBase object with an array of Accounts, size(number of accounts) = 0, and an Archive
      */
     public AccountDatabase() {
-        /*this.accounts = new Account[4];
-        this.size = 0;
-         */
+       /*this.accounts = new Account[4];
+       this.size = 0;
+        */
         this.archive = new Archive();
     }
+
 
     /**
      * This helper method is needed for the O command
@@ -40,6 +47,7 @@ public class AccountDatabase extends List<Account> {
      * @param string the string to be converted to AccountType
      * @return return the converted type or null
      */
+
 
     private AccountType toType(String string) {
         String formattedString = string.trim().toLowerCase();
@@ -119,6 +127,8 @@ public class AccountDatabase extends List<Account> {
     }
 
 
+
+
     /**
      * A method for subtracting an ammount ot the balance of an Account
      *
@@ -148,7 +158,10 @@ public class AccountDatabase extends List<Account> {
         }
 
 
+
+
     }
+
 
     /**
      * A method for adding an ammount to the balance of an Account
@@ -156,6 +169,7 @@ public class AccountDatabase extends List<Account> {
      * @param number AccountNumber of the account that is being deposited to
      * @param amount The amount of money client wants to deposit
      */
+
 
     public void deposit(AccountNumber number, double amount) {
         int index = findAccount(number);
@@ -171,12 +185,15 @@ public class AccountDatabase extends List<Account> {
     }
 
 
+
+
     /**
      * A method for getting the current archived accounts
      */
     public Archive getArchive() {
         return archive;
     }
+
 
     public String returnByBranch() {
         Sort.AccountSort(this, 'B');
@@ -189,6 +206,11 @@ public class AccountDatabase extends List<Account> {
         return sb.toString();
     }
 
+
+    /**
+     *
+     * @return returns accounts ordered by holder and number.
+     */
     public String returnByHolder() {
         Sort.AccountSort(this, 'H');
         StringBuilder sb = new StringBuilder();
@@ -200,6 +222,11 @@ public class AccountDatabase extends List<Account> {
         return sb.toString();
     }
 
+
+    /**
+     *
+     * @return List of accounts ordered by account type and number
+     */
     public String returnByType() {
         Sort.AccountSort(this, 'T');
         StringBuilder sb = new StringBuilder();
@@ -212,12 +239,15 @@ public class AccountDatabase extends List<Account> {
     }
 
 
+
+
     /**
      * A search method that traverses accounts in search for specfic account by reference of accountNumber String
      *
      * @param acctNumber String that is being searched for in array accounts
      * @return returns an index int value of where in the array the parameter account is, return the index or -1 not found.
      */
+
 
     public int findAccount(String acctNumber) {
         for (int i = 0; i < this.size(); i++) {
@@ -231,6 +261,11 @@ public class AccountDatabase extends List<Account> {
     } //return the index or -1 not found.
 
 
+    /**
+     *
+     * @param acctNumber
+     * @return return the index of the acctnumber
+     */
     public int findAccount(AccountNumber acctNumber) {
         for (int i = 0; i < this.size(); i++) {
             if (this.get(i) != null) {
@@ -243,6 +278,8 @@ public class AccountDatabase extends List<Account> {
     } //return the index or -1 not found.
 
 
+
+
     /**
      * A method for printing the current archived accounts
      */
@@ -251,11 +288,14 @@ public class AccountDatabase extends List<Account> {
         StringBuilder sb = new StringBuilder();
         sb.append("*Account statements by account holder*\n");
 
+
         List<Profile> seenProfiles = new List<>(); // your custom util.List
+
 
         for (int i = 0; i < this.size(); i++) {
             Account currentAccount = this.get(i);
             Profile currentHolder = currentAccount.getHolder();
+
 
             boolean alreadyPrinted = false;
             for (int j = 0; j < seenProfiles.size(); j++) {
@@ -266,8 +306,10 @@ public class AccountDatabase extends List<Account> {
             }
             if (alreadyPrinted) continue;
 
+
             seenProfiles.add(currentHolder);
             sb.append(seenProfiles.size()).append(". ").append(currentHolder).append("\n");
+
 
             for (int k = 0; k < this.size(); k++) {
                 Account account = this.get(k);
@@ -278,9 +320,12 @@ public class AccountDatabase extends List<Account> {
             }
         }
 
+
         sb.append("*end of statements*");
         return sb.toString();
     } //print account statements
+
+
 
 
     /**
@@ -311,6 +356,7 @@ public class AccountDatabase extends List<Account> {
                 start = new Date(token[7]);
             }
 
+
             Account acct = null;
             if (token.length > 7) {
                 acct = createAccount(type, branch, holder, balance, term, start);
@@ -323,13 +369,25 @@ public class AccountDatabase extends List<Account> {
                 this.add(acct);
             }
 
+
         }
+
 
     }
 
+
+    /**
+     *
+     * @param accountType
+     * @param branch
+     * @param holder
+     * @param balance
+     * @return returns the new account object
+     */
     public Account createAccount(AccountType accountType, Branch branch, Profile holder, Double balance) {
         Account acct = null;
         AccountNumber acctnum = null;
+
 
         switch (accountType) {
             case Checking:
@@ -358,18 +416,45 @@ public class AccountDatabase extends List<Account> {
         return acct;
     }
 
+
+    /**
+     *
+     * @param accountType
+     * @param branch
+     * @param holder
+     * @param balance
+     * @param campus
+     * @return returns the new account object
+     */
     public Account createAccount(AccountType accountType, Branch branch, Profile holder, Double balance, Campus campus) {
         AccountNumber acctnum = new AccountNumber(branch, AccountType.CollegeChecking);
         Account acct = new CollegeChecking(acctnum, holder, balance, campus);
         return acct;
     }
 
+
+    /**
+     *
+     * @param accountType
+     * @param branch
+     * @param holder
+     * @param balance
+     * @param term
+     * @param start
+     * @return returns the new account object
+     */
     public Account createAccount(AccountType accountType, Branch branch, Profile holder, Double balance, int term, Date start) {
         AccountNumber acctnum = new AccountNumber(branch, AccountType.CD);
         Account acct = new CertificateDeposit(acctnum, holder, balance, term, start);
         return acct;
     }
 
+
+    /**
+     *
+     * @param holder
+     * @return if an account holder is loyal
+     */
     public boolean SavingsLoyal(Profile holder) {
         for (int i = 0; i < size(); i++) {
             Account account = this.get(i);
@@ -381,6 +466,8 @@ public class AccountDatabase extends List<Account> {
         }
         return false;
     }
+
+
 
 
     /**
@@ -424,6 +511,10 @@ public class AccountDatabase extends List<Account> {
         return sb.toString();
 
 
+
+
     }
 
+
 }
+
