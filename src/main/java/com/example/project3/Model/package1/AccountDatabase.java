@@ -162,6 +162,11 @@ public class AccountDatabase extends List<Account> {
         if (index != NOT_FOUND) {
             double newBalance = this.get(index).getBalance() + amount;
             this.get(index).setBalance(newBalance);
+            if(this.get(index) instanceof MoneyMarket){
+                if(newBalance >= 5000){
+                    ((MoneyMarket) this.get(index)).setLoyalty(true);
+                }
+            }
         }
     }
 

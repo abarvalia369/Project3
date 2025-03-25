@@ -457,6 +457,15 @@ public class Controller implements Initializable {
                     break;
             }
 
+            if(account instanceof Checking){
+            if(exists(account.getHolder(),AccountType.RegularSavings)){
+                int indice = findExisting(account.getHolder(), AccountType.RegularSavings);
+                if(database.get(indice) instanceof Savings){
+                    ((Savings) database.get(indice)).setLoyalty(true);
+                    }
+                }
+            }
+
             database.add(account);
             return type + " account " + account.getNumber() + " has been opened." + dobDate;
 
@@ -483,13 +492,25 @@ public class Controller implements Initializable {
             for (int i = 0; i < this.database.size(); i++) {
                 Account existing = this.database.get(i);
 
-                if (existing.getHolder().equals(holder) && existing.getNumber().getAccountType() == type) {
+                if (existing.getHolder().equals(holder) && existing.getNumber().getAccountType().equals(type)) {
                     return true;
                 }
             }
 
             return false;
         }
+
+    private int findExisting(Profile holder, AccountType type){
+        for (int i = 0; i < this.database.size(); i++) {
+            Account existing = this.database.get(i);
+
+            if (existing.getHolder().equals(holder) && existing.getNumber().getAccountType().equals(type)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
 
     private Campus parseCampus(String string) {
             switch (string) {
@@ -585,11 +606,11 @@ public class Controller implements Initializable {
                 s1 = "Closing account " + acctNum.toString();
                 s2 = "--" + acctNum + " interest earned: " + formatted;
             } else {
-                double earlyRate;
-                if (daysOpen / 30.0 <= 6) earlyRate = 0.03;
-                else if (daysOpen / 30.0 <= 9) earlyRate = 0.0325;
-                else earlyRate = 0.035;
-
+                double earlyRate = 0;
+                double dOverm = (double) daysOpen / 30.0;
+                if (dOverm <= 6) earlyRate = 0.03;
+                else if (dOverm <= 9) earlyRate = 0.0325;
+                else if (dOverm < 12) earlyRate = 0.035;
                 earnedInterest = cd.getBalance() * (earlyRate / 365.0) * daysOpen;
                 double penalty = earnedInterest * 0.10;
                 penalty = roundUpToTwoDecimal(penalty);
@@ -606,6 +627,16 @@ public class Controller implements Initializable {
             String formatted = String.format("$%.2f", earnedInterest);
             s2 = "--interest earned: " +  formatted;
         }
+
+        if(acct instanceof Checking){
+            if(exists(acct.getHolder(),AccountType.RegularSavings)){
+                int indice = findExisting(acct.getHolder(), AccountType.RegularSavings);
+                if(database.get(indice) instanceof Savings){
+                    ((Savings) database.get(indice)).setLoyalty(false);
+                }
+            }
+        }
+
         database.getArchive().add(acct, closeDate);
         database.remove(acct);
         return s1 + "\n" + s2 + "\n" + s3;
@@ -669,9 +700,10 @@ public class Controller implements Initializable {
                                 .append(String.format("$%.2f", earnedInterest)).append("\n");
                     } else {
                         double earlyRate = 0.;
-                        if (daysOpen / 30.0  <= 6) earlyRate = 0.03;
-                        else if (daysOpen / 30.0 <= 9) earlyRate = 0.0325;
-                        else if (daysOpen / 30.0  < 12) earlyRate = 0.035;
+                        double dOverm = (double) daysOpen / 30.0;
+                        if (dOverm <= 6) earlyRate = 0.03;
+                        else if (dOverm <= 9) earlyRate = 0.0325;
+                        else if (dOverm < 12) earlyRate = 0.035;
 
                         earnedInterest = cd.getBalance() * (earlyRate / 365.0) * daysOpen;
                         double penalty = earnedInterest * 0.10;
@@ -709,17 +741,18 @@ public class Controller implements Initializable {
     private double getAnnualRate(Account acct){
         AccountType type = acct.getNumber().getAccountType();
 
-        if (type == AccountType.RegularSavings && acct instanceof Savings savings) {
+        if (type.equals(AccountType.RegularSavings)&& acct instanceof Savings savings) {
             return savings.loyalty() ? 0.0275 : 0.025;
         }
-        else if (type == AccountType.MoneyMarketSavings && acct instanceof MoneyMarket moneyMarket) {
+        else if (type.equals(AccountType.MoneyMarketSavings) && acct instanceof MoneyMarket moneyMarket) {
             return moneyMarket.loyalty() ? 0.0375 : 0.035;
         }
-        else if (type == AccountType.Checking || type == AccountType.CollegeChecking) {
+        else if (type.equals(AccountType.Checking)|| type.equals(AccountType.CollegeChecking)){
             return 0.015;
+        }else{
+            return 0.0;
         }
 
-        return 0.0; // unknown type
     }
 
 

@@ -34,8 +34,17 @@ public class MoneyMarket extends Savings {
 
     @Override
     public double fee() {
+        double fee = 0;
         double balance = getBalance();
-        if (balance < 2000) return 25;
-        return withdrawal > 3 ? 10 : 0;
+
+        if (balance < 2000) {
+            fee += 25;
+        }
+
+        if (withdrawal > 3) {
+            fee += 10;
+        }
+
+        return fee;
     }
 }
