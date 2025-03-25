@@ -21,6 +21,7 @@ import java.io.File;
 import java.util.ResourceBundle;
 import java.net.URL;
 
+//Jonathan and Arpeet
 public class Controller implements Initializable {
     private AccountDatabase database = new AccountDatabase();
     @FXML
