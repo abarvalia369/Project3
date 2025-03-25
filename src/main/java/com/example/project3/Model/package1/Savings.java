@@ -25,6 +25,15 @@ public class Savings extends Account {
         return balance >= 500 ? 0 : 25;
     }
 
+    @Override
+    public String toString() {
+        if(this.isLoyal){
+            return "Account#[" + number.toString() + "] Holder[" + holder.toString() + "] Balance[" + String.format( "$%.2f" , balance) + "] Branch[" + number.getBranch().name().toUpperCase() + "] [LOYAL]";
+        }else{
+            return "Account#[" + number.toString() + "] Holder[" + holder.toString() + "] Balance[" + String.format( "$%.2f" , balance) + "] Branch[" + number.getBranch().name().toUpperCase() + "]";
+        }
+    }
+
     public boolean loyalty(){
         return isLoyal;
     }

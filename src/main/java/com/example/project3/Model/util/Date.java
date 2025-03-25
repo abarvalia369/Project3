@@ -86,13 +86,13 @@ public class Date implements Comparable<Date> {
                     this.day = 0;
                 }
             } catch (NumberFormatException e) {
-                // If parsing fails, set an invalid date
+
                 this.year = 0;
                 this.month = 0;
                 this.day = 0;
             }
         } else {
-            // If format is incorrect, set an invalid date
+
             this.year = 0;
             this.month = 0;
             this.day = 0;
@@ -131,7 +131,7 @@ public class Date implements Comparable<Date> {
      */
     @Override
     public String toString() {
-        if (this.isValid()) {
+        if (this.isValidFuture()) {
             return String.format("%02d/%02d/%04d", month, day, year);
         }
         return "Invalid Date";
@@ -223,6 +223,7 @@ public class Date implements Comparable<Date> {
                 isLeapYear = true;
             }
         }
+
         //Check if valid month
         if (month < JANUARY || month > DECEMBER)
             return false;

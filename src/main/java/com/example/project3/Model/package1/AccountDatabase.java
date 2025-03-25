@@ -173,7 +173,7 @@ public class AccountDatabase extends List<Account> {
         StringBuilder sb = new StringBuilder();
         sb.append("*List of accounts ordered by branch location (county, city).\n");
         for (Account account : this) {
-            sb.append(account).append("\n");
+            sb.append(account.toString()).append("\n");
         }
         sb.append("*end of list.");
         return sb.toString();
@@ -184,7 +184,7 @@ public class AccountDatabase extends List<Account> {
         StringBuilder sb = new StringBuilder();
         sb.append("*List of accounts ordered by account holder and number.\n");
         for (Account account : this) {
-            sb.append(account).append("\n");
+            sb.append(account.toString()).append("\n");
         }
         sb.append("*end of list.");
         return sb.toString();
@@ -195,7 +195,7 @@ public class AccountDatabase extends List<Account> {
         StringBuilder sb = new StringBuilder();
         sb.append("*List of accounts ordered by account type and number.\n");
         for (Account account : this) {
-            sb.append(account).append("\n");
+            sb.append(account.toString()).append("\n");
         }
         sb.append("*end of list.");
         return sb.toString();
@@ -365,7 +365,7 @@ public class AccountDatabase extends List<Account> {
             Account account = this.get(i);
             if (account != null && account.getHolder().equals(holder)) {
                 if (account.getNumber().getAccountType().equals(AccountType.Checking)) {
-                    return true; // Immediately return true once a checking account is found
+                    return true;
                 }
             }
         }

@@ -39,6 +39,29 @@ public class CertificateDeposit extends Account {
         }
     }
 
+    public Date getMaturityDate(){
+        // Clone the open date values
+        int year = this.getOpen().getYear();
+        int month = this.getOpen().getMonth();
+        int day = this.getOpen().getDay();
+
+        month += term;
+
+        if (month > 12) {
+            year += (month - 1) / 12;
+            month = ((month - 1) % 12) + 1;
+        }
+
+        Date mature = new Date(year, month, day);
+        if(!mature.isValidFuture()){
+            mature.setMonth(month + 1);
+            mature.setDay(1);
+            return mature;
+        }
+        return mature;
+
+    }
+
     @Override
     public double interest() {
         double balance = getBalance();
@@ -49,6 +72,11 @@ public class CertificateDeposit extends Account {
             case 12: return (balance * 0.04 / 12);
             default: return 0;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Account#[" + number.toString() + "] Holder[" + holder.toString() + "] Balance[" + String.format( "$%.2f" , balance) + "] Branch[" + number.getBranch().name().toUpperCase() + "] Term["+ term + "] Date opened[" + open.toString() + "] Maturity date[" + this.getMaturityDate() +"]";
     }
 
     @Override

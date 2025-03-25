@@ -14,6 +14,10 @@ public class CollegeChecking extends Checking {
         this.campus = campus;
     }
 
+    @Override
+    public String toString() {
+        return "Account#[" + number.toString() + "] Holder[" + holder.toString() + "] Balance[" + String.format( "$%.2f" , balance) + "] Branch[" + number.getBranch().name() + "] Campus[" + campus.toString() + "]";
+    }
 
     @Override
     public double fee() {
